@@ -3,10 +3,6 @@ set -euo pipefail
 
 DISK="/dev/nvme0n1"
 
-# === CHANGE THIS to your Wi-Fi credentials ===
-WIFI_SSID="Rooftop 5.0"
-WIFI_PASS="060120070301200921082010"
-
 echo ">>> Leaving $DISK partitions 1-3 alone (Windows boot/system)"
 
 echo ">>> Creating 1G EFI partition for Arch (p4)"
@@ -39,12 +35,6 @@ mkdir -p /mnt/boot
 mount "$BOOT_PART" /mnt/boot
 swapon "$SWAP_PART"
 
-echo ">>> Connecting to Wi-Fi"
-systemctl start iwd
-iwctl --passphrase "$WIFI_PASS" station wlan0 connect "$WIFI_SSID"
+echo ">>> DONE - Arch partitions created and mounted"
 
-echo ">>> Checking connection"
-ping -c 3 archlinux.org || echo "⚠️ Wi-Fi connection failed, check SSID/PASSWORD"
-
-echo ">>> DONE - Arch partitions created, mounted, Wi-Fi ready"
 lsblk "$DISK"
