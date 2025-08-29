@@ -2,6 +2,8 @@
 set -euo pipefail
 
 DISK="/dev/nvme0n1"
+CONFIG="user_configuration.json"
+CREDS="user_credentials.json"
 
 echo ">>> Leaving $DISK partitions 1-3 alone (Windows boot/system)"
 
@@ -47,3 +49,19 @@ swapon "$SWAP_PART"
 
 echo ">>> DONE - Arch partitions created and mounted"
 lsblk "$DISK"
+
+# === Check that there are exactly 6 partitions before archinstall ===
+PART_COUNT=$(lsblk -n -o NAME "$DISK" | grep -c "^$(basename $DISK)p")
+if [[ "$PART_COUNT" -ne 6 ]]; then
+    echo "ERROR: Expected 6 partitions on $DISK, found $PART_COUNT"
+    exit 1
+fi
+
+# === Run archinstall with provided configs ===
+if [[ -f "$CONFIG" && -f "$CREDS" ]]; then
+    echo ">>> Running archinstall with $CONFIG and $CREDS"
+    archinstall --config "$CONFIG" --creds "$CREDS"
+else
+    echo "ERROR: Missing $CONFIG or $CREDS"
+    exit 1
+fi
