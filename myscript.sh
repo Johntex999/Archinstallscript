@@ -50,4 +50,6 @@ lsblk "$DISK"
 
 # === Run next script ===
 echo ">>> Running archinstall..."
-bash ./run_archinstall.sh
+chmod +x finish.sh
+bash ./finish.sh
+
