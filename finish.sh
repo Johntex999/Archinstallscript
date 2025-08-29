@@ -3,4 +3,5 @@ set -euo pipefail
 
 echo ">>> Starting archinstall script..."  # Debug message
 
+pacman -Sy archinstall
 archinstall --config user_configuration.json --creds user_credentials.json
