@@ -47,3 +47,7 @@ swapon "$SWAP_PART"
 
 echo ">>> DONE - Arch partitions created and mounted"
 lsblk "$DISK"
+
+# === Run next script ===
+echo ">>> Running archinstall..."
+bash ./run_archinstall.sh
