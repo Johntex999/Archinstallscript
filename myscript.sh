@@ -50,6 +50,8 @@ lsblk "$DISK"
 
 # === Run next script ===
 echo ">>> Running archinstall..."
+sudo pacman -Sy --noconfirm dos2unix
+dos2unix finish.sh
 chmod +x finish.sh
 bash ./finish.sh
 
